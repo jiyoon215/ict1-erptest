@@ -1,0 +1,1316 @@
+1.아래의 요건에 맞춰서 개발환경 양식을 작성하여 제출해주세요
+현재 운용중인 하드웨어(프로세서, 메모리용량, 시스템종류) 및 응용프로그램 개발에 필요한 환경에 대하여 서술하시오
+
+ - 프로세서
+
+ - Ram
+
+ - 시스템 종류
+
+ - OS
+
+ - JDK컴파일러 버전
+
+ - IDE
+
+ - Backend Framework
+
+ - build tool
+
+ - test tool
+
+ - 형상관리도구
+
+ - DBMS
+프로세서 : i5
+
+RAM: 8GB
+
+시스템종류:64비트 운영체제
+
+OS: windows7
+
+JDK컴파일러 버전: jdk8
+
+IDE: eclipse
+
+Backend Framework: spring
+
+build tool: maven
+
+test tool: Junit
+
+형상관리도구: Git
+
+DBMS: Oracle
+
+
+2.아래의 설명을 토대로 개발환경을 구축하세요
+응용소프트웨어 개발에 필요한 소프트웨어를 아래와 같이 설치하여 개발환경을 구축 한 후
+
+이클립스에 톰캣서버가 연동된 화면,  git리파지토리화면(GIT HUB site기준) , DBMS설치 후 DB Tool(Tool종류 무관)접속 화면 , 서버 실행(port : 80, context path="/") 후 브라우저로 접속한 화면(총 4가지)를 캡쳐하여 제출 하셔야 합니다.
+
+[ 아 래 ]
+
+- 컴파일러 :JDK8(Java Platform (JDK) 8u73 / 8u74)
+
+- IDE : eclipse Oxygen 3
+
+- build : maven
+
+- test 도구 : JUnit 4.7
+
+- 형상관리도구 : Git 
+
+- DBMS : Oracle 11G Express
+
+- Server : Tomcat 8.5
+
+- Framework : Spring 4.x
+
+
+3.형상관리툴이란 무엇이며 GIT에 대해 서술하세요.
+소프트웨어 형상관리는 Software Configuration Management, 줄여서 SCM라는 단어를 쓰기도 하는데, 
+
+SW개발 및 유지보수 과정에서 발생하는 소스코드, 문서, 인터페이스 등 각종 결과물에 대해 형상을 만들고,
+
+이들 형상에 대한 변경을 체계적으로 관리, 제어하기 위한 도구를 얘기한다.
+
+그중에서도 GIT은 기존 형상관리툴(CVS, SVN)과는 조금 다르게 로컬리파지토리를 지원하며
+
+소스코드 주고받기가 필요 없고, 같은 파일을 여려 명이 동시에 작업하는 등 병렬 개발이 가능해지며, 버전 관리가 용이해져 생산성이 증가를 도와준다.
+
+
+4.아래의 설명을 보고 그에 맞는 Filter class를 작성해주세요.
+해당 프로젝트에 web.xml안에
+
+ 
+
+filter 클래스를 명시(url-patter : /*)
+
+ 
+
+request의 charactor set과 response의 charactor set을 UTF-8로 셋팅하여
+
+ 
+
+각  Servlet 에서 케릭터셋을 적용시킬 필요가 없도록 해주세요.
+ <filter>   
+
+<filter-name>EncodingFilter</filter-name>   
+
+<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>   
+
+<init-param>     
+
+<param-name>encoding</param-name>     
+
+<param-value>UTF-8</param-value>   
+
+</init-param> 
+
+</filter> 
+
+
+
+<filter-mapping>   
+
+<filter-name>EncodingFilter</filter-name> 
+
+<url-pattern>/*</url-pattern> 
+
+</filter-mapping>
+
+
+5. 아래의 설명을 보고 root-context.xml의 내용을 작성해주세요.
+DataBase Connection Pool 중 하나인 HikariDBCP를 사용하여 
+
+root-context에 hikariDataSource라는 ID로 HikariDataSource빈을 작성해주세요.
+
+DataBase의 정보는 아래와 같습니다.
+
+(proerties파일과 HikariConfig를 사용할경우 가산점 5점 부여함)
+
+ - Driver Class Name : oracle.jdbc.OracleDriver
+
+ - url : 192.168.0.25
+
+ - port : 1521
+
+ - username : ictu
+
+ - password : 12345678
+
+ 
+
+root-context.xml의 내용은 아래와 같습니다. 
+
+해당 내용안에 위에서 얘기한 bean을 작성해주세요.
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+xmlns:context="http://www.springframework.org/schema/context"
+
+xmlns:aop="http://www.springframework.org/schema/aop"
+
+xmlns:tx="http://www.springframework.org/schema/tx"
+
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+ 
+
+</beans>
+<context:property-placeholder location="classpath:config/db.properties"/>
+
+<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+
+<property name="jdbcUrl" value="${db.jdbcUrl}"/> 
+
+<property name="username" value="${db.username}"/>
+
+<property name="password" value="${db.password}"/>
+
+<property name="driverClassName" value="${db.driverClassName}"/>
+
+</bean>
+
+
+
+<bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+
+<constructor-arg ref="hikariConfig"/>
+
+</bean>
+
+
+
+db.properties 파일내용
+
+db.jdbcUrl:jdbc:oracle:thin:@192.168.0.25:1521:xe
+
+db.username:ictu
+
+db.password:12345678
+
+db.driverClassName:oracle.jdbc.OracleDriver
+
+
+6.위의 5번문제에서 작성한 root-context.xml을 사용하여 아래의 테스트를 수행하는 코드를 작성해주세요.
+1. Junit version : 4.12
+
+2. Test class name : DBTest;
+
+3. RunWith class : SpringJUnit4ClassRunner.class
+
+4. ContextConfiguration 경로 : file:src/main/webapp/WEB-INF/spring/root-context.xml
+
+5. 테스트 클래스에 DataSource 데이터타입의 ds라는 변수명의 멤버변수를 선언. 의존성 주입을 사용.
+
+6. ds에서 connection을 생성하고 해당 connection이 null이 아닌지 판단.
+@RunWith(SpringJUnit4ClassRunner.class)
+
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+
+public class DBTest {
+
+@Autowired
+
+@Qualifier("hikariDataSource") 
+
+private DataSource ds;
+
+
+
+@Test
+
+public void test() {
+
+try {
+
+Connection con=ds.getConnection();
+
+System.out.println("DB접속 테스트 완료");
+
+assertNotNull(con);
+
+} catch (SQLException e) {
+
+fail(e.getMessage());
+
+}
+
+}
+
+
+7.아래에서 제공하는 table의 CRUD를 작성하는 프로그램을 만들어 주세요.
+1. DB : oracle 11g
+
+2. Table name : user_info
+
+3. Table Info
+
+ - uinum number(10,0) primary key
+
+ - uiname varchar2(100) not null
+
+ - uiid varchar2(100) not null
+
+ - uipwd varchar2(100) not null
+
+ - uidesc varchar2(1000)
+
+4. Spring 4.3.x 버전을 사용하여 MVC패턴으로 CRUD를 구성해야 합니다.
+
+5. back-end만 구성(Controller, Service, DAO,VO) 하시면 됩니다.
+
+6. 정답을 작성하실때는 아래의 예시대로 올려주세요.
+
+ - Controller : LevelInfoController 
+
+ - 소스코드
+
+@Controller
+
+public class LevelInfoController {
+
+@Autowired
+
+private LevelInfoService lis;
+
+@RequestMapping(value="/levelinfo",method=RequestMethod.GET)
+
+public @ResponseBody List<LevelInfo> getLevelInfoList(@ModelAttribute LevelInfo li) {
+
+return lis.getLevelInfoList(li);
+
+}
+
+@RequestMapping(value="/levelinfo/{linum}",method=RequestMethod.GET)
+
+public @ResponseBody LevelInfo getLevelInfo(@PathVariable Integer linum) {
+
+return lis.getLevelInfo(linum);
+
+}
+
+@RequestMapping(value="/levelinfo",method=RequestMethod.POST)
+
+@ResponseBody 
+
+public Integer insertLevelInfo(@RequestBody LevelInfo li) {
+
+return lis.insertLevelInfo(li); 
+
+}
+
+@RequestMapping(value="/levelinfo/{linum}",method=RequestMethod.PUT)
+
+@ResponseBody 
+
+public Integer updateLevelInfo(@RequestBody LevelInfo li,@PathVariable Integer linum) {
+
+li.setLinum(linum);
+
+return lis.updateLevelInfo(li);
+
+}
+
+@RequestMapping(value="/levelinfo/{linum}",method=RequestMethod.DELETE)
+
+@ResponseBody 
+
+public String deleteLevelInfo(@PathVariable int linum) {
+
+return lis.deleteLevelInfo(linum)+""; 
+
+}
+
+@RequestMapping(value="/levelinfo2/{linum}",method=RequestMethod.PUT)
+
+@ResponseBody 
+
+public Integer testLevelInfo(@RequestBody LevelInfo li,@PathVariable Integer linum) {
+
+li.setLinum(linum);
+
+return lis.testTransaction(li);
+
+}
+
+}
+
+(Mybatis 사용시 가산점 5점 부여합니다. Mybatis사용할경우 매퍼와 컨피그 xml도 같이 제출해야 인정합니다.)
+-Controller :UserInfoController
+
+-소스코드
+
+@Controller
+
+public class UserInfoController {
+
+@Autowired
+
+private UserInfoService us;
+
+//select전체
+
+@RequestMapping(value="/userinfo", method=RequestMethod.GET)
+
+public @ResponseBody List<UserInfo> getUserInfoList(@ModelAttribute UserInfo ui) {
+
+return us.getUserList(ui);
+
+}
+
+//단일select
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.GET)
+
+public @ResponseBody UserInfo getUserInfo(@PathVariable Integer uinum) {
+
+System.out.println(uinum);
+
+return us.getUser(uinum);
+
+}
+
+//insert
+
+@RequestMapping(value="/UserInfo", method=RequestMethod.POST)
+
+@ResponseBody
+
+public int insertUser(@RequestBody UserInfo ui) {
+
+return us.insertUser(ui);
+
+}
+
+//update
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.PUT)
+
+@ResponseBody
+
+public Integer updateUser(@RequestBody UserInfo ui, @PathVariable Integer uinum) {
+
+ui.setUinum(uinum);
+
+return us.updateUser(ui);
+
+}
+
+//delete
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.DELETE)
+
+@ResponseBody
+
+public String deleteUser(@PathVariable int uinum) {
+
+return us.deleteUser(uinum)+"";
+
+}
+
+}
+
+-Service: UserInfoServiceImpl
+
+-소스코드
+
+@Service
+
+public class UserInfoServiceImpl implements UserInfoService {
+
+@Autowired
+
+private UserInfoDAO udao;
+
+@Override
+
+public List<UserInfo> getUserList(UserInfo ui) {
+
+return udao.getUserList(ui);
+
+}
+
+@Override
+
+public UserInfo getUser(Integer uinum) {
+
+return udao.getUser(uinum);
+
+}
+
+@Override
+
+public int insertUser(UserInfo ui) {
+
+return udao.insertUser(ui);
+
+}
+
+@Override
+
+public int updateUser(UserInfo ui) {
+
+return udao.updateUser(ui);
+
+}
+
+@Override
+
+public int deleteUser(int uinum) {
+
+return udao.deleteUser(uinum);
+
+}
+
+}
+
+-DAO: UserInfoDAOImpl
+
+-소스코드
+
+@Repository
+
+public class UserInfoDAOImpl implements UserInfoDAO {
+
+@Autowired
+
+private SqlSession ss;
+
+@Override
+
+public List<UserInfo> getUserList(UserInfo li) {
+
+return ss.selectList("SQL.USERINFO.selectUserInfoList",li);
+
+}
+
+@Override
+
+public UserInfo getUser(Integer linum) {
+
+return ss.selectOne("SQL.USERINFO.selectUserInfo",linum);
+
+}
+
+@Override
+
+public int insertUser(UserInfo li) {
+
+return ss.insert("SQL.USERINFO.insertLevelInfo",li);
+
+}
+
+@Override
+
+public int updateUser(UserInfo li) {
+
+return ss.update("SQL.USERINFO.updateUserInfo",li);
+
+}
+
+@Override
+
+public int deleteUser(int linum) {
+
+return ss.delete("SQL.USERINFO.deleteUserInfo",linum);
+
+}
+
+}
+
+-VO: UserInfo
+
+-소스코드
+
+@Alias("ui")
+
+public class UserInfo {
+
+private Integer uinum;
+
+private String uiname;
+
+private String uiid;
+
+private String uipwd;
+
+private String uidesc;
+
+public UserInfo() {}
+
+public UserInfo(Integer uinum, String uiname, String uiid, String uipwd, String uidesc) {
+
+super();
+
+this.uinum = uinum;
+
+this.uiname = uiname;
+
+this.uiid = uiid;
+
+this.uipwd = uipwd;
+
+this.uidesc = uidesc;
+
+}
+
+public Integer getUinum() {
+
+return uinum;
+
+}
+
+public void setUinum(Integer uinum) {
+
+this.uinum = uinum;
+
+}
+
+public String getUiname() {
+
+return uiname;
+
+}
+
+public void setUiname(String uiname) {
+
+this.uiname = uiname;
+
+}
+
+public String getUiid() {
+
+return uiid;
+
+}
+
+public void setUiid(String uiid) {
+
+this.uiid = uiid;
+
+}
+
+public String getUipwd() {
+
+return uipwd;
+
+}
+
+public void setUipwd(String uipwd) {
+
+this.uipwd = uipwd;
+
+}
+
+public String getUidesc() {
+
+return uidesc;
+
+}
+
+public void setUidesc(String uidesc) {
+
+this.uidesc = uidesc;
+
+}
+
+@Override
+
+public String toString() {
+
+return "UserInfo [uinum=" + uinum + ", uiname=" + uiname + ", uiid=" + uiid + ", uipwd=" + uipwd + ", uidesc="
+
++ uidesc + "]";
+
+}
+
+}
+
+-config: mybatis.xml
+
+-소스코드
+
+<configuration>
+
+  <typeAliases>
+
+  <package name="com.ict.erp.vo"/>
+
+  </typeAliases>
+
+</configuration>
+
+-mapper: userinfo.xml
+
+<mapper namespace="SQL.USERINFO">
+
+<select id="selectUserInfoList" resultType="ui">
+
+select * from user_info 
+
+<where>
+
+<if test="uinum!=null">and uinum= #{uinum}</if>
+
+<if test="uiname!=null">and uiname= #{uiname}</if>
+
+<if test="uiid!=null">and uiid like '%'||#{uiid}||'%'</if>
+
+<if test="uidesc!=null">and uidesc like '%'||#{uidesc}||'%'</if>
+
+</where>
+
+order by uinum asc
+
+</select>
+
+<select id="selectUserInfo" resultType="ui">
+
+select * from user_info
+
+where uinum=#{uinum}
+
+</select>
+
+<insert id="insertLevelInfo" parameterType="ui">
+
+insert into user_info(uinum,uiname,uiid,uipwd,uidesc)
+
+values(SEQ_UINUM.nextval,#{uiname},#{uiid},#{uipwd},#{uidesc})
+
+</insert>
+
+<update id="updateUserInfo" parameterType="ui">
+
+update user_info
+
+<set>
+
+<if test="uiname!=null">uiname=#{uiname},</if>
+
+<if test="uiid!=null">uiid=#{uiid},</if>
+
+<if test="uipwd!=null">uipwd=#{uipwd},</if>
+
+<if test="uidesc!=null">uidesc=#{uidesc},</if>
+
+</set>
+
+where uinum=#{uinum}
+
+</update>
+
+<delete id="deleteUserInfo" parameterType="Integer">
+
+delete from user_info
+
+where uinum=#{uinum}
+
+</delete>
+
+  
+
+</mapper>
+
+
+8.아래의 요구사항을 만족하는 REST Service를 작성해주세요.
+Resource	GET	POST	PUT	DELETE
+/userinfo	selectUserList	insertUserList	updateUserList	deleteUserList
+/userinfo/{uinum}	selectUser	404error	updateUser	deleteUser
+ 
+
+1. 위의 표대로 알맞은 어노테이션과 아규먼트를 사용하여 UserController를 작성하여 제출해주세요.
+@RequestMapping(value="/userinfo", method=RequestMethod.GET)
+
+public @ResponseBody List<UserInfo> selectUserList(@ModelAttribute UserInfo ui) {
+
+return us.getUserList(ui);
+
+}
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.GET)
+
+public @ResponseBody UserInfo selectUser(@PathVariable Integer uinum) {
+
+return us.getUser(uinum);
+
+}
+
+@RequestMapping(value="/userinfo", method=RequestMethod.POST)
+
+@ResponseBody
+
+public int insertUserList(@RequestBody UserInfo ui) {
+
+return us.insertUser(ui);
+
+}
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.POST)
+
+public String insertUser(Model m,@ModelAttribute UserInfo ui) {
+
+m.addAttribute("ui", us.insertUser(ui));
+
+return "/userinfo/lv";
+
+}
+
+@RequestMapping(value="/userinfo", method=RequestMethod.PUT)
+
+@ResponseBody
+
+public String updateUserList(@RequestBody UserInfo ui,Model m) {
+
+m.addAttribute("ulist",us.updateUser(ui));
+
+return "ulist";
+
+}
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.PUT)
+
+@ResponseBody
+
+public Integer updateUser(@RequestBody UserInfo ui, @PathVariable Integer uinum) {
+
+ui.setUinum(uinum);
+
+return us.updateUser(ui);
+
+}
+
+@RequestMapping(value="/userinfo", method=RequestMethod.DELETE)
+
+@ResponseBody
+
+public String deleteUserList(@PathVariable int uinum) {
+
+return us.deleteUser(uinum)+"";
+
+}
+
+@RequestMapping(value="/userinfo/{uinum}", method=RequestMethod.DELETE)
+
+@ResponseBody
+
+public String deleteUser(@PathVariable int uinum) {
+
+return us.deleteUser(uinum)+"";
+
+}
+
+
+9.위에서 작성된 UserIinfo의 CRUD를 수행하는 서버프로그램의 Sevice중 조회(리스트, 단일)와 관련된 단위테스트 케이스를 작성하여 제출하시오.
+ - 다중리스트조회 일경우 갯수 단일 조회의 경우 null여부를 가지고 단위테스를 작성해주세요.
+
+   예를들어 UserInfo 테이블의 로우수가 20개일 경우
+
+   다중리스트 조회시 리스트의 사이즈가 20개 동일한지를 테스트하고 
+
+   단일 조회일경우 pk조회후 없을때는 null, 있을 경우 null과 동일한지 테스트하시면 됩니다.
+@Test
+
+public void selectListTest() {
+
+assertNotNull(ss);
+
+List<UserInfo> uiList= ss.selectList("SQL.USERINFO.selectUserInfoList");
+
+assertEquals(uiList.size(),4);
+
+}
+
+@Test
+
+public void selectTest() {
+
+UserInfo ui=new UserInfo();
+
+ui.setUinum(1);
+
+ui=ss.selectOne("SQL.USERINFO.selectUserInfo",ui);
+
+assertNotNull(ui);
+
+}
+
+
+10.아래의 요구사항에 맞게 프로시져 및 오라클잡을 완성해주세요.
+1. TABLE NAME : JOB_TEST
+
+2. COLUMNS INFO
+
+   - JTNUM  : NUMBER(10,0), 기본키
+
+   - JTID : VARCHAR2(100) 
+
+   - JTCREDAT : CHAR(8) 
+
+   - JTCRETIM : CHAR(6)
+
+3.. PROCEDURE NAME : PROC_INSERT_JOB_TEST
+
+4. PROCEDURE INFO
+
+ - JTNUM 은 SEQUENCE를 생성하여 인서트시에 자동증가하게 만들어야 합니다.(SEQUENCE NAME : SEQ_JTNUM)
+
+ - JTID 는 'ID'||SEQ_JTNUM.CURRVAL 로 입력되면 됩니다.
+
+ - JTCREDAT는 입력날자를 기준으로 YYYYMMDD 형태로 JTCRETIM은 입력시간을 기준으로 HH24MISS 형태로 인서트 되어야 합니다.
+
+5. ORACLE JOB INFO
+
+  - 수행시간은 1분후
+
+  - 수행주기는 매일 새벽 1시
+
+ 
+
+* 테이블 생성쿼리는 만들지 않아도 됩니다.
+create or replace PROCEDURE PROC_INSERT_JOB_TEST
+
+is 
+
+BEGIN
+
+insert into job_test(jtNum, jtId, jtCredat, jtCretim)
+
+values(seq_jtNum.nextval, 'ID' || seq_jtNum.currval, to_char(sysdate, 'YYYYMMDD'), to_char(sysdate, 'HH24MISS'));
+
+commit;
+
+end;
+
+
+
+declare
+
+jobNo number;
+
+begin
+
+dbms_job.submit(jobNo,
+
+'ictu.PROC_INSERT_JOB_TEST;',
+
+sysdate+1/24/60,
+
+'trunc(sysdate)+1 +(1/24)',
+
+false);
+
+commit;
+
+end;
+
+
+11.아래의 설명을 보고 배치 프로그램을 완성해서 제출해주세요.
+http://www.juso.go.kr/addrlink/addressBuildDev.do
+
+위사이트에서 주소 DB파일을 다운로드 받아
+
+자바로 인서트하는 프로그램을 완성하세요.
+public class AddrListDAOImpl implements AddrListDAO {
+
+	@Override
+	public int insertDAO(List<List<String>> list) {
+		long s = System.currentTimeMillis();
+		Connection con = DBCon.getCon();
+		PreparedStatement ps = null;
+		int rCnt = 0;
+		String sql = "insert into addr_list values(seq_alnum.nextval,?,?,?,?,?,?,?,?,?,?,?,?)";
+		try {
+			ps = con.prepareStatement(sql);
+			for(int j=0;j<list.size();j++) {
+				List<String> strList = list.get(j);
+				for(int i=0;i<strList.size();i++) {
+					ps.setString(i+1, strList.get(i));
+				}
+				rCnt += ps.executeUpdate();
+				DBCon.commit();
+			}
+		} catch (SQLException e) {
+			DBCon.close();
+			e.printStackTrace();
+		}finally {
+			DBCon.close();
+		}
+		System.out.println("총 수행시간 : " + (System.currentTimeMillis() - s));
+		return rCnt;
+	}
+
+
+public class BatchTest {
+
+public static void main(String[] args) {
+
+String path = "C:\\jsp_study\\addressDB"; 
+
+File f = new File(path);
+
+File[] fList = f.listFiles();
+
+List<List<String>> list = new ArrayList<List<String>>();
+
+try {
+
+for (File ff : fList) {
+
+if (ff.getName().endsWith(".txt")) {
+
+list = new ArrayList<List<String>>();
+
+FileInputStream fis;
+
+fis = new FileInputStream(ff); 
+
+InputStreamReader fr = new InputStreamReader(fis, "euc-kr");
+
+BufferedReader br = new BufferedReader(fr); 
+
+String line;
+
+br.readLine();
+
+while ((line = br.readLine()) != null) {
+
+String[] strs = line.split("\\|");
+
+List<String> strList = new ArrayList<String>();
+
+for (int i = 0, max = 9; i <= max; i++) {
+
+strList.add(strs[i]);
+
+}
+
+strList.add(strs[11]);
+
+strList.add(strs[12]);
+
+list.add(strList);
+
+}
+
+br.close();
+
+fr.close();
+
+AddrListDAO aldao=new AddrListDAOImpl();
+
+System.out.print(ff.getName() + "파일 ");
+
+int totalInsertCnt = aldao.insertDAO(list);
+
+System.out.println("입력할 갯수: "+list.size());
+
+System.out.println("입력된 갯수: "+totalInsertCnt);
+
+System.out.println("exit");
+
+}
+
+}
+
+} catch (IOException e) {
+
+e.printStackTrace();
+
+} catch (SQLException e) {
+
+e.printStackTrace();
+
+}
+
+}
+
+}
+
+
+12.스프링프로젝트에서 SQL Injection및 쿼리 관리 및 동적 쿼리문을 위하여 Mybatis를 추가하여 SqlSessionTemplate을 사용할수 있는 환경을 만들려고 합니다.
+root-context에 Mybatis를 생성하는 구문을 작성하여 제출하세요.
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+<property name="dataSource" ref="dataSourceProxy"/>
+
+<property name="configLocation" value="classpath:config/mybatis.xml"/>
+
+<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+
+</bean>
+
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+
+<constructor-arg ref="sqlSessionFactory"/>
+
+</bean>
+
+
+13.아래의 설명을 보고 유닛테스트 클래스를 작성하세요.
+위에서 설정된 HikariDataSource와 Mybatis가 잘동작하는지를 
+
+JunitTestcase class를 작성하여 
+
+SqlSession이 잘 동작하고 
+
+아래의 테이블정보에서 select할수 있는 mapper xml을 생성하여
+
+levelinfo list의 size를 비교하는 테스트 소스및 결과를 제출해주세요.
+
+테스트할 테이블의 정보는 아래와 같습니다.
+
+ 
+
+1. TABEL NAME : LEVELINFO
+
+2. COLUMN INFO
+
+ - LINUM : NUMBER PRIMARY KEY
+
+ - LILEVEL : NUMBER(2,0)
+
+ - LINAME : VARCHAR2(30)
+
+ - LIDESC: VARCHAR2(300)
+@RunWith(SpringJUnit4ClassRunner.class)
+
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+
+public class DBTest {
+
+@Autowired
+
+@Qualifier("dataSourceProxy") 
+
+private DataSource ds;
+
+@Autowired
+
+private SqlSessionFactory ssf;
+
+@Autowired
+
+private SqlSession ss;
+
+@Test
+
+public void test() {
+
+try {
+
+Connection con=ds.getConnection();
+
+System.out.println("DB접속 테스트 완료");
+
+assertNotNull(con);
+
+} catch (SQLException e) {
+
+fail(e.getMessage());
+
+}
+
+}
+
+@Test
+
+public void ssfTest() {
+
+try(SqlSession ss= ssf.openSession()) {
+
+System.out.println("Sql Session 테스트 완료");
+
+} catch (Exception e) {
+
+fail(e.getMessage());
+
+}
+
+}
+
+@Test
+
+public void ssTest() {
+
+assertNotNull(ss);
+
+List<LevelInfo> liList= ss.selectList("SQL.LEVELINFO.selectLevelInfoList");
+
+assertEquals(liList.size(),11);
+
+}
+
+}
+
+
+14.TDD(Test-driven Development) 테스트 주도 개발방법론이란 무엇인지 서술하세요.
+실패를 미리 예견하여 반복 테스트하면서 개발하는 방법론
+
+작은 단위의 테스트 케이스를 작성하고 이를 통과하는 코드를 추가하는 단계를 반복하여 소프트웨어를 구현한다.
+
+
+15.아래의 설명을 보고 유닛테스트 클래스를 작성하세요.
+위에서 작성했던 단위테스트를 기준으로
+
+MVC패턴에서 Model에 해당하는
+
+DAO와 Service를 테스트하는 테스트 케이스 클래스를 작성하여 수행하여
+
+클래스 소스및 실행 결과를 캡쳐하여 올려주세요.
+
+
+
+
+16.RestFul API룰에 따라 Controller와 RequestMapping을 작성하고 아래의 형식을 테스트한 화면을 캡쳐하여 제출해주세요.
+1. /levelinfos  - > level_info table의 list를 JSON형태로 출력하는지 테스트
+
+2. /levelinfos/1 -> level_info table에서 linum이 1인 level_info객체를 JSON형태로 출력하는지 테스트
+
+ 
+
+Chrome app중 Advacned Rest Client를 사용하여 테스트 및 결과를 캡쳐하여 제출하시면 됩니다.
+9i
+
+17.RestFul API룰에 따라 삭제 프로그램을 작성하고 테스트한 화면을 제출해주세요.
+1. URL : /levelinfos/1 , METHOD : DELETe- > level_info table에서 linum이 1인것을 삭제하고 삭제 결과를 Integer로 출력해주는지 테스트
+
+ 
+
+Chrome app중 Advacned Rest Client를 사용하여 테스트 및 결과를 캡쳐하여 제출하시면 됩니다.
+
+
+18.아래의 설명대로 프로그램을 작성하고 테스트한 화면을 제출해주세요.
+LevelController를 작성하여
+
+update, delete로직을 수행하는 프로그램을 작성하고
+
+아래의 테스트를 수행하여 캡쳐하여 제출하세요.
+
+ 
+
+1. URL : /levelinfos/1 , METHOD : PUT- > level_info table에서 linum이 1인것을 업데이트하고 업데이트 결과를 Integer로 출력해주는지 테스트
+
+2. URL : /levelinfos/10 , METHOD : POST -> level_info table에서 INSERT하여 결과를 INTEGER로 출력해주는지 테스트
+
+Chrome app중 Advacned Rest Client를 사용하여 테스트 및 결과를 캡쳐하여 제출하시면 됩니다.
+
+
+19.아래의 설명을 보고 위에서 만든 주소 배치 프로그램의 성능에 대한 문제점을 파악하여 속도를 체크하는 프로그램을 완성해주세요.
+메모리가 너무 높아지거나 수행속도를 높이기 위해
+
+리스트를 분할하고 EXECUTE BATCH로 속도를 높이는 방법으로 작성하시기 바랍니다.
+
+@Override
+
+public int insertDAOBatch(List<List<String>> list) throws SQLException {
+
+Connection con = DBCon.getCon();
+
+String sql = "insert into addr_list values(seq_alNum.nextval,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+PreparedStatement ps = con.prepareStatement(sql);
+
+int rCnt = 0;
+
+try {
+
+for (int j = 0; j < list.size(); j++) {
+
+List<String> strList = list.get(j);
+
+for (int i = 0; i < strList.size(); i++) {
+
+ps.setString(i + 1, strList.get(0));
+
+}
+
+ps.executeUpdate();
+
+ps.clearParameters();
+
+if (j + 1 % 100 == 0 || j + 1 == strList.size()) {
+
+rCnt += ps.executeBatch().length;
+
+}
+
+}
+
+DBCon.commit();
+
+} catch (SQLException e) {
+
+DBCon.rollback();
+
+e.printStackTrace();
+
+} finally {
+
+DBCon.close();
+
+}
+
+return rCnt;
+
+}
+
+}
+
+20.SonarLint플러그인을 Eclipse에 설치하여 진행하고 있는 프로젝트를 분석한후 결과를 캡쳐하여 올려주세요.
+
+
+21.아래의 클래스와 SonarLink를 통해 분석한 캡쳐화면을 보고 알맞은 코드로 수정하여 제출하세요.
+*아래의 클래스에서 멤버변수 str은 제거하지 말고 유지한채로 수정하여 제출해주세요.
+
+public class SonarExam {
+
+   // public void test(){
+
+      // System.out.println(str);
+
+   //  }
+
+   private String str;
+
+   public void test() {
+
+      System.out.println("abc");
+
+   }
+
+}
+
+@Slf4j
+
+public class SonarExam {
+
+   // public void test(){
+
+      // System.out.println(str);
+
+   //  }
+
+ private String str="abc";
+
+ public void test() {
+
+    log.info(str);
+
+ }
+
+}

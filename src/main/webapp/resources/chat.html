@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="room"></div>
+<fieldset>
+<legend>ICT1-ERP채팅창</legend>
+<textarea id="chat" rows="20" cols="40"></textarea><br>
+
+이름: <input type="text" id="name"><br>
+내용: <input type="text" id="msg" onkeyup="send(1)">
+<button onclick="send(2)">전송하기</button>
+</fieldset>
+<script>
+var ws;
+
+function getEl(id){
+	return document.querySelector('#'+id);
+}
+
+function doInit(){
+	ws=new WebSocket('ws://192.168.0.3/wstest');
+	
+	getEl('name').disabled=true;
+	getEl('msg').disabled=true;
+	getEl('chat').disabled=true;
+		
+	ws.onopen=function(evt){
+		getEl('name').disabled=false;
+		getEl('msg').disabled=false;
+		getEl('chat').disabled=false;
+		alert("연결 성공");
+	}
+	ws.onerror=function(e){
+		alert(e.data);
+	}
+	ws.onmessage=function(evt){
+		getEl('chat').value += evt.data+'\n';
+	}
+}
+function send(t){
+	if(t==1){
+		var key=event.which || event.keyCode;
+		if(key!=13){
+			return;
+		}
+	}
+	var name=getEl('name').value;
+	var msg=getEl('msg').value;
+	ws.send(name+' : '+msg);
+	getEl('chat').value +='나 : '+msg+'\n';
+	getEl('msg').value = '';
+}
+window.addEventListener('load',doInit);
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="SQL.LEVELINFO">   <!-- namespace기반으로 id가 만들어지므로 namespace가 다르면 id는 중복이 가능하다. -->
+	
+	<select id="selectLevelInfoList" resultType="li">
+		select * from level_info 
+		<where>
+			<if test="linum!=null">and linum= #{linum}</if>
+			<if test="lilevel!=null">and lilevel= #{lilevel}</if>
+			<if test="liname!=null">and liname like '%'||#{liname}||'%'</if>
+			<if test="lidesc!=null">and lidesc like '%'||#{lidesc}||'%'</if>
+		</where>
+		order by linum asc
+	</select>
+	
+	<select id="selectLevelInfo" resultType="li">
+		select * from level_info
+		where linum=#{linum}
+	</select>
+	
+	<select id="selectLinum" resultType="int">
+		select seq_linum.nextval as linum from dual
+	</select>
+
+	<insert id="insertLevelInfo" parameterType="li">
+		insert into level_info(linum,lilevel,liname,lidesc)
+		values(SEQ_LINUM.nextval,#{lilevel},#{liname},#{lidesc})
+	</insert>
+	
+	<insert id="insertLevelInfoList" parameterType="li">
+		insert into level_info(linum,lilevel,liname,lidesc)
+		values(#{linum},#{lilevel},#{liname},#{lidesc})
+	</insert>
+
+	<update id="updateLevelInfo" parameterType="li">
+		update level_info
+		<set>
+			<if test="lilevel!=null">lilevel=#{lilevel},</if>
+			<if test="liname!=null">liname=#{liname},</if>
+			<if test="lidesc!=null">lidesc=#{lidesc},</if>			
+		</set>
+		where linum=#{linum}
+	</update>
+
+	<delete id="deleteLevelInfo" parameterType="Integer">
+		delete from	level_info
+		where linum=#{linum}
+	</delete>
+	
+	<update id="updateLevelInfoError" parameterType="li">
+		update level_info
+		set litest=#{linum}
+		where linum=#{linum}
+	</update>
+	  
+</mapper>

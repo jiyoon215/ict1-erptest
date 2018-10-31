@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<context:property-placeholder location="classpath:config/db.properties"/>
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="jdbcUrl" value="${db.jdbcUrl}"/> <!-- setter주입으로 setJdbcUrl()의 set을 빼고 jdbcUrl임. -->
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="driverClassName" value="${db.driverClassName}"/>
+		<property name="autoCommit" value="${db.autoCommit}"/>
+		<property name="minimumIdle" value="${db.minimumIdle}"/>
+		<property name="maximumPoolSize" value="${db.maximumPoolSize}"/>
+	</bean>
+	
+	<bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfig"/>	 <!-- constructor(생성자)주입 -->
+	</bean>
+	
+	<bean id="dataSourceProxy" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="hikariDataSource" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="CUSTOM SQL LOG :  ====>" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceProxy"/>
+		<property name="configLocation" value="classpath:config/mybatis.xml"/>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceProxy"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.ict.erp.service.impl.*ServiceImpl.*(..))" id="txPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+	</aop:config>
+
+	<context:component-scan base-package="com.ict.erp.service"/>
+	<context:component-scan base-package="com.ict.erp.dao"/>
+	<context:component-scan base-package="com.ict.erp.aop"/>
+	
+	<bean id="aet" class="com.ict.erp.dao.impl.NaverTransDAOImpl">
+		<property name="clientId" value="a4hyH6wbjee1LWbnoYRH"/>
+		<property name="clientSecret" value="aARhJaHwRZ"/>
+		<property name="clientIdAdd" value="X-Naver-Client-Id"/>
+		<property name="clientSecretAdd" value="X-Naver-Client-Secret"/>
+		<property name="apiURL" value="https://openapi.naver.com/v1/papago/n2mt"/>
+		<property name="source" value="en"/>
+		<property name="target" value="ko"/>		
+	</bean>
+</beans>
