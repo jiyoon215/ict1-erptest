@@ -1,0 +1,37 @@
+aws 가입
+지역 확인(서울)-ec2 선택-인스턴스시작 누름-탄력적ip선택 후 새주소할당-생성완료되면 주소연결해줌
+RDS 선택-데이터베이스 생성-오라클 선택하고 RDS프리티어에 적용되는 옵션만 사용 체크-설정에 DB접속 이름,비번설정-
+ec2선택-보안그룹-RDS인바운드(모든TCP,모든UDP,모든ICMP-IPv4를 ec2인스턴스로 설정),ec2(http 규칙추가)
+puttygen-load클릭 후 pem파일 선택-ppk비번 입력해주고 save private key 클릭-ppk파일 생성
+putty-ppk비번입력-명령어 입력창이 활성화됨
+-sudo su 
+-yum install wget 
+(메이븐설치)
+-wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+-sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+-yum install -y apache-maven
+-mvn --version
+(ojdbc7.jar 인스톨)
+-wget http://211.118.162.123/resources/ojdbc7.jar
+- git연결할 pom.xml에 있는 ojdbc버전 확인 후 아래 맞는 버전으로 선택해서 입력함.
+mvn install:install-file -Dfile=/home/ec2-user/ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0 -Dpackaging=jar
+or
+mvn install:install-file -Dfile=/home/ec2-user/ojdbc7.jar -DgroupId=com.org -DartifactId=ojdbc -Dversion=12.0.1 -Dpackaging=jar
+(git연결)
+-yum install git
+-cd /
+-mkdir git
+-cd git
+-mkdir ict
+-cd ict
+
+-git init
+-git remote add origin 깃링크
+-git pull origin master
+
+-mvn install
+
+
+오라클 접속 
+아이디: mydbji
+비번: 디비접속하자
