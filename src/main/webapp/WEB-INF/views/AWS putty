@@ -31,6 +31,57 @@ mvn install:install-file -Dfile=/home/ec2-user/ojdbc7.jar -DgroupId=com.org -Dar
 
 -mvn install
 
+(톰캣 설치)
+-wget 톰캣8다운로드 링크주소
+-sudo su
+-cd /home/ec2-user/
+-ls
+-tar xzf apach-tomcat-8.5.34.tar.gz
+-ls
+-mv ./apach-tomcat-8.5.34 /usr/tomcat8.5 
+-cd /usr/tomcat8.5/
+-ls
+-cd conf
+-vi server.xml
+-i키 누름
+-page down키 눌러서 8080포트 찾아서 80으로 변경
+-esc1번누르고 :입력 후 wq 입력 후 엔터
+-cd ..
+-cd bin
+-./startup.sh
+-탄력적ip주소를 브라우져에 입력 후 tomcat 사이트가 열리는지 확인
+(톰캣에 깃 연결)
+-cd /git/ict/
+-ls
+-cd target/
+-ls
+-mv ./ict.war /usr/tomcat8.5/webapps/
+-cd /usr/tomcat8.5/
+-ls
+-cd bin
+-./shutdown.sh
+-./startup.sh
+-cd ..
+-ls
+-cd logs
+-ls
+-tail -10000f catalina.out
+
+-cd ..
+-cd conf
+-vi server.xml
+하단에 </HOST> 위에 <Context docBase="ict" path="/" reloadable="true"/>추가
+-:wq 입력
+-cd ..
+-cd bin
+-/sh
+-./shutdown.sh
+-./startup.sh
+-cd ..
+-cd conf
+-vi server.xml
+
+
 
 오라클 접속 
 아이디: mydbji

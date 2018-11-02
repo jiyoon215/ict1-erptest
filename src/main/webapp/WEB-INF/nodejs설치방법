@@ -1,0 +1,24 @@
+-nodejs.org 경로 접속해서 otter downloads 선택 후 windows binary(.zip)다운로드
+-압출 풀고, 해당 경로 복사 후 환경변수 등록해줌
+-cmd창 열고 node -v , npm -v , 버전 확인 후 npm install -g phonegap 입력(phonegap은 os를 가리지 않고 os에 맞게 해주기위해서)
+npm :node package manage 메이븐이랑 비슷하다고 생각하자
+-npm i -g express 입력
+-npm i -g typescript 입력()
+(vscode 실행)
+-cd\
+-cd jsp_study
+-mkdir works
+-cd works
+-dir/w
+-mkdir ts01
+-cd ts01
+-code .    (vscode실행명령어)
+
+
+
+(vscode다운로드 vscode 프론트엔드 프로그램 중 높은 지지를 받고 잇음)
+-다운받아서 압출풀고 경로 환경변수 등록해주고
+
+
+학원 환경변수 설정 Path
+C:\Program Files\Bandizip\;C:\jsp_study\java\jdk1.8\bin;C:\jsp_study\maven-3.5.4\bin;C:\jsp_study\typescript\VSCode-win32-x64-1.28.2\bin;C:\jsp_study\node-v10.13;
