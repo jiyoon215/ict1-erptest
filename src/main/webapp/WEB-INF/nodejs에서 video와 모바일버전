@@ -1,0 +1,94 @@
+@server.js
+
+const express = require('express');
+const exp=express();
+const bodyParser = require('body-parser');
+const port=80;
+
+exp.use(bodyParser.json());
+
+exp.use('/',(req,res,next)=>{
+    if(req.url.indexOf('.do')!=-1){
+        next();
+    }else{
+        res.sendFile(req.url,{root:__dirname+'/views'});
+    }
+});
+
+exp.get('/list.do',(req,res,next)=>{
+    var list=[];
+    list.push({no:1,text:'테스트1'});
+    list.push({no:2,text:'테스트2'});
+    list.push({no:3,text:'테스트3'});
+    res.json(list);
+})
+
+exp.listen(port,()=>{    
+    console.log(`서버 시작 port: ${port}`);
+    //console.log('서버 시작 port:'+port); //위에꺼랑 같은거
+})
+
+
+@views>head.html
+공통으로 들어가는 코드들 설정
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+@views>main.html
+ <link rel="import" href="/head.html">
+</head>
+<body>
+    <div data-role="header">
+        <a href="/" data-iconpos="left" data-icon="home">Home</a>
+        <h1>jQuery Test</h1>
+    </div>
+    <div data-role="main">
+        <h2>데이터 뷰 리스트</h2>
+        <ul data-role="listview" id="lv">            
+        </ul>
+
+        <video width="500" id="na-v">
+            <source id="vid" type="video/mp4" src="/video/video.mp4"/>
+            <p>여기선 동영상 재생이 안됩니다.</p>
+        </video>
+
+    </div>
+    <div data-role="footer">
+        <div data-role="navbar" data-iconpos="bottom">
+            <ul>
+                <li><a class="ui-btn-active" href="#" data-icon="phone">전화</a></li>
+                <li><a href="#" data-icon="video">play</a></li>
+                <li><a href="#" data-icon="shop">매장</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+    
+    <script>
+        var content=document.querySelector('link').import;
+        document.body.appendChild(content.body.cloneNode(true));
+      
+        $(document).ready(function(){
+            $.ajax({url:'/list.do',
+                dataType:'json',
+                 success:function(res){
+                     var html='';
+                     for(var obj of res){
+                         html +='<li><a href="#">'+obj.text+'</a></li>';
+                     }
+                     $('#lv').html(html);
+                     $('#lv').listview('refresh');
+                }
+            })
+
+            $('[data-icon="video"]').on('click',function(){
+                $('#na-v')[0].play();
+            })
+        })
+
+        
+    </script>
+</body>
+

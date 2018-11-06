@@ -1,0 +1,203 @@
+@server.js
+
+const express =require('express');
+const exp=express();
+const bp=require('body-parser');
+const odb=require('oracledb');
+
+exp.use(bp.json());
+
+const dbconf={
+    user:'ictu',
+    password:'12345678',
+    connectString:'localhost/xe'
+};
+
+
+
+exp.use('/',(req,res,next)=>{
+    if(req.url=='/'|| req.url.indexOf('/uri')==0){
+        const uri=req.url.replace('/uri','')+'.html';
+        res.sendFile(uri,{root:__dirname+'/views'});
+    }else if(req.url.indexOf('.js')!=-1 || req.url.indexOf('.css')!=-1){
+        res.sendFile(req.url,{root:__dirname});    
+    }else{
+
+    next();
+}
+    console.log(req.url);
+
+});
+
+exp.get('/test',(req,res,next)=>{
+    var no = req.query.no;
+var list=[];
+list.push({'name':'hong'});
+odb.getConnection(dbconf,function(err,con){
+    if(err){
+        console.log(err);
+        return;
+    }
+    var sql="select * from level_info where 1=1 order by linum";
+    var params={};
+    if(no){
+        sql +=' and linum=:linum';
+        params={linum:linum};
+    }
+
+    con.execute(sql,params,{
+        outFormat:odb.OBJECT
+    },function(err,rs){
+        if(err){
+            console.log(err);
+            return;
+        }
+        res.contentType('application/json;charset=utf-8');
+        res.json(rs.rows);
+    });
+    
+})
+});
+
+exp.get('/test/:linum',(req,res,next)=>{
+    var linum = req.params.linum;
+odb.getConnection(dbconf,function(err,con){
+    if(err){
+        console.log(err);
+        return;
+    }
+    var sql="select * from level_info where linum=:linum";
+    var params={linum:linum};
+    
+    con.execute(sql,params,{
+        outFormat:odb.OBJECT
+    },function(err,rs){
+        if(err){
+            console.log(err);
+            return;
+        }
+        res.contentType('application/json;charset=utf-8');
+        res.json(rs.rows[0]);
+    });
+    
+})
+});
+
+exp.post('/test',function(req,res,next){
+    odb.getConnection(dbconf,function(err,con){
+        if(err){
+            console.log(err);
+            return;
+        }
+        var sql="insert into level_info values(:linum,:lilevel,:liname,:lidesc)";
+        con.execute(sql,req.body,{
+            outFormat:odb.OBJECT
+        },function(err,rs){
+            if(err){
+                console.log(err);
+                return;
+            }
+            con.commit();
+            res.contentType('application/json;charset=utf-8');
+            res.json(rs.rowsAffected);
+        });
+        
+    })
+})
+
+exp.put('/test/:linum',(req,res,next)=>{
+    req.body.linum = req.params.linum;
+    //req.body[linum]=req.params.linum;
+odb.getConnection(dbconf,function(err,con){
+    if(err){
+        console.log(err);
+        return;
+    }
+    var sql="update level_info set lilevel=:lilevel,liname=:liname,lidesc=:lidesc where linum=:linum";
+    
+    con.execute(sql,req.body,{
+        outFormat:odb.OBJECT
+    },function(err,rs){
+        if(err){
+            console.log(err);
+            return;
+        }
+        con.commit();
+        res.contentType('application/json;charset=utf-8');
+        res.json(rs.rowsAffected);
+    });
+    
+})
+});
+
+exp.delete('/test/:linum',(req,res,next)=>{
+    var linum = req.params.linum;
+odb.getConnection(dbconf,function(err,con){
+    if(err){
+        console.log(err);
+        return;
+    }
+    var sql="delete from level_info where linum=:linum";
+    var params={linum:linum};
+    
+    con.execute(sql,params,{
+        outFormat:odb.OBJECT
+    },function(err,rs){
+        if(err){
+            console.log(err);
+            return;
+        }
+        con.commit();
+        res.contentType('application/json;charset=utf-8');
+        res.json(rs.rowsAffected);
+    });
+    
+})
+});
+
+exp.listen(80,function(){
+    console.log('server funning port:80');
+});
+
+
+@test.html
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="/css/w3.css">
+    <script src="/js/w3data.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <button class="test">showDiv</button>
+   
+    <div id="tDiv" style="width:100px;height:100px;background-color: blue">
+    나나나나나나나나나나나나나나나나나나나
+    </div>
+        <div w3-include-html="/uri/head"></div>
+            <div class="content">
+    test내용
+</div> 
+<div w3-include-html="/uri/bottom"></div>
+
+    <script>
+        var cnt=0;
+        function doInit(){
+            w3IncludeHTML();
+            $('.test').bind('click',function(){
+              var text=this.innerHTML;
+              $('#tDiv').toggle(1000);
+            })
+            
+            $.get({url:'/test',
+            dataType:'json',
+            success:function(res){
+                console.log(res);
+        }})
+        }
+        window.addEventListener('load',doInit);
+    </script>
+</body>
