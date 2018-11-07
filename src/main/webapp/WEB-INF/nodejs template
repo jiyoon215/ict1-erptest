@@ -1,0 +1,18 @@
+<body>
+    <template id="test">
+        hello
+    </template>
+    <div data-target="test"></div>
+    <div data-target="test"></div>
+    <div data-target="test"></div>
+<script>
+    function doInit(){
+        var cont=document.querySelector('#test');
+        var tests=document.querySelectorAll('[data-target="test"]');
+        for(var obj of tests){
+            obj.innerHTML=cont.content.textContent;
+        }
+    }
+    window.addEventListener('load',doInit);
+</script>
+</body>
