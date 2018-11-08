@@ -1,0 +1,8 @@
+package com.ict.erp;
+
+public class Test2 {
+	public static void main(String[] args) {
+		Test t=new Test();
+		t.math(9, 3, "-");
+	}
+}
