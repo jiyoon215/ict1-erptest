@@ -1,0 +1,59 @@
+-처음 putty창
+sudo su
+cd /git
+구글에서 git letsencrypt certbot검색해서 github들어가서 git레파지토리
+
+주소 복사한다
+git clone https://github.com/certbot/certbot.git(위에서 복사했던 주소
+
+붙여넣기) ./letsenc
+cd letsenc
+ls
+./letsencrypt-auto certonly --manual --email 본인이메일주소(아무거나) 
+
+-d 본인탄력적IP설정된도메인주소
+a(동의)
+n(메일로 뭘 보낼거다)
+y(실행할거냐)
+
+-이클립스
+이클립스 git연동해놓은 프로젝트-servlet-context.xml에 <resources 
+
+mapping="/.well-known/**" location="/.well-known/" />추가해주고 -
+
+navigator에서 .well-known폴더생성하고 안에 acme-challenge폴더 만들고 
+
+안에 file만든다- 위의 putty에서 했던 파일명을 복사해서 해주고 내용은 
+
+create와 and 사이에 있는 걸 내용에 입력 후 저장 - 깃에 push해준다.
+
+-두번째putty
+putty 를 새롭게 하나 더 실행한다.
+sudo su
+cd /git
+ls
+cd ict
+ls
+git pull origin master
+mvn clean
+mvn install
+cd target/
+ls
+mv ./ict.war /usr/tomcat8.5/webapps/
+y
+cd /usr/tomcat8.5/bin
+./shutdown.sh
+./startup.sh
+ls
+
+-처음putty로 이어서
+처음에 작업한 putty의 and 다음에 있는 주소를 복사해서 브라우져 url창
+
+에 입력해서 다운로드 실행되는지 테스트를 해본다(접속여부확인을 하기 
+
+위해서 한다.)
+실행 된다면 처음 작업한 putty를 엔터를 누른다.
+y누른다
+cd /etc/letsencrypt/live
+ls
+파란색글씨로 본인이 등록한 도메인이 뜨는지 확인하면 됨.
