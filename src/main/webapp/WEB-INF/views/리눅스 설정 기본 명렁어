@@ -1,5 +1,7 @@
-1. 루트권한 : sudo su
+1. 루트권한 : sudo su || su -
+
 2. wget http://apache.tt.co.kr/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
+
 3. yum install wget
 4. jdk donwload & install
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm"
@@ -32,3 +34,24 @@ OS 확인 : hostnamectl
  - 차례대로 입력 : agree -> no -> yes
  - 제대로 만들어졌는지 확인 : cd /etc/letsencrypt/live/도메인
  - 위 폴더에 private.pem파일 제대로 만들어져있으면 OK
+
+9. git install
+ yum install git
+
+10. tsl key 만들기
+openssl rsa -in privkey.pem -text > ict.key
+openssl x509 -inform PEM -in fullchain.pem -out ict.crt
+openssl pkcs12 -export -in ict.crt -inkey ict.key -out ict.p12 -name tomcat
+keytool -list -v -keystore ict.p12 -storetype pkcs12
+
+
+11. server.xml 수정
+<Connector port="443" maxHttpHeaderSize="8192" 
+maxThreads="150" enableLookups="false" acceptCount="100" 
+connectionTimeout="20000" disableUploadTimeout="true" 
+protocol="org.apache.coyote.http11.Http11NioProtocol" 
+SSLEnabled="true" scheme="https" secure="true" clientAuth="false" 
+sslProtocol="TLS" 
+keystoreFile="/etc/letsencrypt/live/javajs.net/ict.p12" 
+keystoreType="PKCS12" 
+keystorePass="12345678" />

@@ -6,6 +6,30 @@ puttygen-load클릭 후 pem파일 선택-ppk비번 입력해주고 save private 
 putty-ppk비번입력-명령어 입력창이 활성화됨
 -sudo su 
 -yum install wget 
+(linux설치)
+-sudo su
+-yum install wget
+-ls
+- wget http://mirror.apache-kr.org/tomcat/tomcat-8/v8.5.35/bin/apache -tomcat-8.5.35.tar.gz
+-ls
+-tar -xzf apache-tomcat-8.5.35.tar.gz
+-ls
+-mv ./apache-tomcat8.5.35 /usr/tomcat8.5
+-ls
+-ls -a
+cd ..
+ls -a
+cd ..
+ls -a
+cd /usr/tomcat8.5/
+ls
+cd /home/ec2-user/
+ls
+wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm"
+ls
+rpm -ivh jdk-8u191-linux-x64.rpm
+java -version
+
 (메이븐설치)
 -wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
 -sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
