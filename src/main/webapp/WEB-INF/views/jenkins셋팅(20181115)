@@ -1,0 +1,15 @@
+(jenkins 설치)
+sudo su
+yum update -y
+구글에서 jenkins yum repository 검색해서 installing 어쩌구 되있는 사이트에서 아래 내용을 복사한다.사이트:https://wiki.jenkins.io/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+yum install jenkins
+service jenkins start
+aws 인바인드 8080포트 규칙등록
+브라우져에 본인 도메인:8080 입력한다.
+브라우져에 빨간글씨 복사 해서 putty창에 vi하고 붙여넣기(vi /var/lib/jenkins/secrets/initialAdminPassword)
+putty에 나오는 화면 내용 복사해서 브라우져 비밀번호란에 붙여넣기해주고 로그인한다
+putty에 :q! 입력
+브라우져 왼쪽에 install 써제스트 어쩌구 클릭
+계정생성 후 save

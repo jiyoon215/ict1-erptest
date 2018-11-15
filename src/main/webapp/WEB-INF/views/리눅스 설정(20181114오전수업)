@@ -1,6 +1,4 @@
-(tomcat8.5tar.gz 설치-linux용 jdk.rpm설치-certbot깃 연결-TSL키 생성-HTTPs포트 오
-
-픈)
+(tomcat8.5tar.gz 설치-linux용 jdk.rpm설치-certbot깃 연결-TSL키 생성-HTTPs포트 오픈)
 
 -sudo su 
 -yum install wget 
@@ -21,13 +19,7 @@ cd /usr/tomcat8.5/
 ls
 cd /home/ec2-user/
 ls
-wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F
-
-%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" 
-
-"http://download.oracle.com/otn-pub/java/jdk/8u191-
-
-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm"
+wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.rpm"
 ls
 rpm -ivh jdk-8u191-linux-x64.rpm
 java -version
@@ -38,9 +30,7 @@ y
 git clone 깃주소 /git/certbot/
 cd /git/certbot/
 ls
-./letsencrypt-auto certonly --manual --email 본인이메일주소(아무거나) -d 본인탄
-
-력적IP설정된도메인주소
+./letsencrypt-auto certonly --manual --email 본인이메일주소(아무거나) -d 본인탄력적IP설정된도메인주소
 a(동의)
 n(메일로 뭘 보낼거다)
 y(실행할거냐)
@@ -66,12 +56,10 @@ vi server.xml
 cd ..
 cd bin
 ./startup.sh
-브라우져에 파일명까지 있는 주소 복사해서 파일내용 나오는지 확인 해보고 되면 첫번
-
-째putty 엔터 쳐서 실행함.
+브라우져에 파일명까지 있는 주소 복사해서 파일내용 나오는지 확인 해보고 되면 첫번째putty 엔터 쳐서 실행함.
 
 (TSL키 만들기)
-cd /usr/etc/letsencrypt/live/도메인명
+cd /etc/letsencrypt/live/도메인명
 openssl rsa -in privkey.pem -text > ict.key
 openssl x509 -inform PEM -in fullchain.pem -out ict.crt
 openssl pkcs12 -export -in ict.crt -inkey ict.key -out ict.p12 -name tomcat
