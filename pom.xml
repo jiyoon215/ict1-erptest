@@ -148,12 +148,13 @@
 
 
 		<!-- Database Config Start -->
-		<!-- Ojdbc7 in Local -->
+		
+		<!-- Ojdbc7 in Local
 		<dependency>
 			<groupId>com.org</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>12.0.1</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- commons-dbcp2 -->
 		<!-- Hikaricp -->
