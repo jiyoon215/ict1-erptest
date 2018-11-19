@@ -7,9 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.junit.Test;
+
 public class NaverPapago {
 
-	public static void main(String[] args) {
+	@Test	
+	public void main() {
 		String clientId = "a";
 		String clientSecret = "a";
 
