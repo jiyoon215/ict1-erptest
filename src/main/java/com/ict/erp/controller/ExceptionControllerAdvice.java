@@ -27,6 +27,7 @@ public class ExceptionControllerAdvice {
 	public @ResponseBody ResponseEntity<Map<String,String>> SQLExceptionHandler(SQLException ex) throws IOException{
 		log.error("error=>{}", ex);
 		Map<String,String> map=new HashMap<String, String>();
+		// 변경
 		map.put("errorMsg", ntd.getText(ex.getMessage()));
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(map);
 	}
