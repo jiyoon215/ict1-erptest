@@ -1,5 +1,7 @@
 package com.ict.erp;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -48,5 +50,6 @@ public class NaverPapago {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		assertEquals("a", clientId);		
 	}
 }
